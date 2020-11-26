@@ -17,6 +17,11 @@ You can use it on dynamically sized widgets also, but it is a possibility to con
 
 This package depends on my other package, which is the smooth_scroll_web package. The scrollbar would not work without it.
 
+# Moving the scrollbar
+![Movement](https://gitlab.com/dezso15/webscrollbar/-/raw/master/scrollbar_moving.gif)
+# Resizing the widget
+![Resizing](https://gitlab.com/dezso15/webscrollbar/-/raw/master/scrollbar_resize.gif)
+
 # Examples
 ```dart
 class ScrollbarExample extends StatelessWidget {
