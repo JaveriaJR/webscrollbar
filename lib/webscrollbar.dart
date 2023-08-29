@@ -1,7 +1,7 @@
 library webscrollbar;
 
 import 'package:flutter/material.dart';
-import 'package:smooth_scroll_web/smooth_scroll_web.dart';
+import 'package:web_smooth_scroll/web_smooth_scroll.dart';
 import 'package:webscrollbar/scrollbar.dart';
 
 const DEFAULT_MIN_WIDTH = 6.0;
@@ -36,9 +36,9 @@ class WebScrollBar extends StatefulWidget {
   final double scrollbarMaxWidth;
 
   WebScrollBar({
-    @required this.controller,
-    @required this.child,
-    @required this.visibleHeight,
+    required this.controller,
+    required this.child,
+    required this.visibleHeight,
     this.scrollbarMinWidth = DEFAULT_MIN_WIDTH,
     this.scrollbarMaxWidth = DEFAULT_MAX_WIDTH,
     this.animationLength = DEFAULT_ANIMATION_LENGTH_MS,
@@ -53,7 +53,7 @@ class WebScrollBar extends StatefulWidget {
 class _WebScrollBarState extends State<WebScrollBar> {
   @override
   Widget build(BuildContext context) {
-    return SmoothScrollWeb(
+    return WebSmoothScroll(
       controller: widget.controller,
       child: ScrollBar(
         child: widget.child,

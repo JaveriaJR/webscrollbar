@@ -1,16 +1,19 @@
 name: webscrollbar
 description: A scrollbar that is designed for the desktop version of web. It creates a general scrollbar, for the desktop version of your website.
-version: 0.0.1
-homepage: https://gitlab.com/dezso15/webscrollbar
+version: 0.0.2
+homepage: https://github.com/JaveriaJR/webscrollbar #https://gitlab.com/dezso15/webscrollbar
 
-environment:
-  sdk: ">=2.7.0 <3.0.0"
-  flutter: ">=1.17.0 <2.0.0"
+# environment:
+#   sdk: ">=2.7.0 <3.0.0"
+#   flutter: ">=1.17.0 <2.0.0"
   
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
 dependencies:
   flutter:
     sdk: flutter
-  smooth_scroll_web: ^0.0.3
+  web_smooth_scroll: ^1.1.0
 
 dev_dependencies:
   flutter_test:

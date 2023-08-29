@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 enum ThumbAnimation {
   IN,
@@ -17,14 +16,14 @@ class ScrollBar extends StatefulWidget {
   final double scrollbarMaxWidth;
 
   ScrollBar({
-    @required this.controller,
-    @required this.child,
-    @required this.visibleHeight,
-    this.scrollbarMinWidth,
-    this.scrollbarMaxWidth,
-    this.animationLength,
-    this.scrollThumbColor,
-    this.scrollbarColor,
+    required this.controller,
+    required this.child,
+    required this.visibleHeight,
+    required this.scrollbarMinWidth,
+    required this.scrollbarMaxWidth,
+    required this.animationLength,
+    required this.scrollThumbColor,
+    required this.scrollbarColor,
   });
 
   @override
@@ -33,9 +32,9 @@ class ScrollBar extends StatefulWidget {
 
 class _ScrollBarState extends State<ScrollBar> {
   double offsetTop = 0;
-  double ratio;
-  double thumbHeight;
-  double fullHeight;
+  late double ratio;
+  late double thumbHeight;
+  double? fullHeight;
   ThumbAnimation thumbAnimation = ThumbAnimation.IN;
 
   @override
@@ -51,38 +50,41 @@ class _ScrollBarState extends State<ScrollBar> {
     if (fullHeight == null) {
       Future.delayed(Duration.zero, () {
         setState(() {
-          fullHeight = widget.controller.position.maxScrollExtent + widget.controller.position.viewportDimension;
+          fullHeight = widget.controller.position.maxScrollExtent +
+              widget.controller.position.viewportDimension;
         });
       });
       return widget.child;
     }
 
-    final remainder = (fullHeight - widget.visibleHeight);
+    final remainder = (fullHeight! - widget.visibleHeight);
 
     if (remainder < 0) {
       return widget.child;
     }
 
-    ratio = fullHeight / widget.visibleHeight;
+    ratio = fullHeight! / widget.visibleHeight;
     thumbHeight = (1 / ratio) * widget.visibleHeight;
 
     return _getAnimatedScrollbar();
   }
 
   Widget _getAnimatedScrollbar() {
-    Tween tween;
+    Tween<double> tween;
 
     if (thumbAnimation == ThumbAnimation.OUT) {
-      tween = Tween<double>(begin: widget.scrollbarMinWidth, end: widget.scrollbarMaxWidth);
+      tween = Tween<double>(
+          begin: widget.scrollbarMinWidth, end: widget.scrollbarMaxWidth);
     } else {
-      tween = Tween<double>(begin: widget.scrollbarMaxWidth, end: widget.scrollbarMinWidth);
+      tween = Tween<double>(
+          begin: widget.scrollbarMaxWidth, end: widget.scrollbarMinWidth);
     }
 
     return TweenAnimationBuilder<double>(
       tween: tween,
       duration: Duration(milliseconds: widget.animationLength),
       curve: Curves.bounceIn,
-      builder: (BuildContext cont, double width, Widget w) {
+      builder: (BuildContext cont, double width, Widget? w) {
         return Stack(
           fit: StackFit.loose,
           alignment: Alignment.topRight,
@@ -130,10 +132,12 @@ class _ScrollBarState extends State<ScrollBar> {
       child: _getMouseRegion(
         GestureDetector(
           onVerticalDragDown: (s) {
-            offsetTop = widget.controller.offset.toDouble() - (s.localPosition.dy * ratio);
+            offsetTop = widget.controller.offset.toDouble() -
+                (s.localPosition.dy * ratio);
           },
           onVerticalDragUpdate: (dragDetails) {
-            final newPosition = (dragDetails.localPosition.dy * ratio) + offsetTop;
+            final newPosition =
+                (dragDetails.localPosition.dy * ratio) + offsetTop;
             widget.controller.jumpTo(newPosition);
           },
           child: Container(
@@ -151,6 +155,7 @@ class _ScrollBarState extends State<ScrollBar> {
   }
 
   double calculateTop() {
-    return (widget.visibleHeight / fullHeight) * widget.controller.position.extentBefore;
+    return (widget.visibleHeight / fullHeight!) *
+        widget.controller.position.extentBefore;
   }
 }
